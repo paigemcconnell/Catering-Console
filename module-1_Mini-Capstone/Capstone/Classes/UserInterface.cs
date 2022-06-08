@@ -10,7 +10,7 @@ namespace Capstone.Classes
     /// </summary>
     public class UserInterface
     {
-        private Catering catering = new Catering();
+        private CateringSystem catering = new CateringSystem();
 
         public void RunMainMenu()
         {

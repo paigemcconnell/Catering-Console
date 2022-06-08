@@ -7,7 +7,7 @@ namespace Capstone
     /// The main entry point for this application.
     /// </summary>
     /// <remarks>
-    /// You should not need to modify this file. If you believe you do, ask your instructor.
+    /// You should NOT need to modify this file. If you believe you do, ask your instructor.
     /// </remarks>
     public class Program
     {

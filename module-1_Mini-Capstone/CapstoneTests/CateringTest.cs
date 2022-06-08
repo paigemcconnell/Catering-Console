@@ -10,7 +10,7 @@ namespace CapstoneTests
         public void YourTestGoesHere()
         {
             // Arrange 
-            Catering catering = new Catering();
+            CateringSystem catering = new CateringSystem();
 
             // Act
 
