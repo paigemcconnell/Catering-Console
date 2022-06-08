@@ -13,6 +13,15 @@
 *   What happens when a slot runs out of a product?
 *   Does it keep running for multiple “sessions”
 
+**Does it meet the technical requirements**
+*   Are Console statements restricted to just the User Interface?
+*   Is CateringItem abstract?
+*   Do at least 2 classes inherit from CateringItem?
+*   Are those inherited classes created?
+*   Are there valid unit tests?
+*   Is the user interface class free of any StreamReader or StreamWriter code?
+*   Does it avoid Application.Exit or related code?
+
 **Is the code clean? Is it understandable?** 
 
 *   Good variable, method, and class names
@@ -39,6 +48,7 @@
 
 *   Clever code
 *   Additional features, no matter how amazing
+*   Jimothy
 
 ---
 
@@ -66,12 +76,12 @@ Good code matters!   So the project will also be judged not only on the function
 *   Having Console.ReadLine or Console.WriteLine statements in more than 1 class
 *   Procrastination
 *   Using Static
-*   Using Environment.Exit(0)
+*   Using Environment.Exit(0) or anything in the Application class.
 *   Re-reading the inventory each time the items are accessed
 *   Writing code that depends on having the same data in the input file each time
 *   Not handling exceptions or having empty catch blocks
 *   Not having separate class(es) for File I/O
-*   After the transaction has finished, the balance of the machine is not emptied
+*   After the transaction has finished, the balance of the system is not emptied
 *   Creating multiple instances of classes that should have 1, like the UserInterface, File IO, etc.
 *   Using a GOTO approach with menus that would eventually result in a Stack Overflow condition
 *   Writing everything in UserInterface class

@@ -23,7 +23,7 @@ They’re releasing a new application that can be integrated with the customer�
 4. The catering system is automatically restocked each time the application runs.
 5. When the customer selects ​(1) Display Catering Items, their information  is shown.
     - Each catering product has a product code identifier, name, purchase price, and quantity.
-    - Each item in the catering system has enough room for 25 of that product.
+    - Each item in the catering system has enough room for 10 of that product.
     - Every product is initially stocked to the maximum amount.
     - A product which has run out should indicate it is SOLD OUT, otherwise it should display the quantity remaining.
 6. When the customer selects (2) Order they are guided through the purchase menu:
@@ -37,16 +37,16 @@ They’re releasing a new application that can be integrated with the customer�
    Selecting any items from the purchase menu except (3) returns to the purchase menu. Selecting 3 from the purchase menu returns to the main menu.
 
 7. The purchase process flow is as follows
-  - Selecting (1) Add Money ​A customer can repeatedly feed money into their account in any whole dollar amounts up to $4200 (e.g. $1, $3, $5, $15, $20, $100, $2918, etc.)
-    - The Current Account Balance should not be able to exceed $4200 at any time
-    - Customers should be able to add money multiple times so they can replenish their balance at any time, provided they never go above $4200. 
+  - Selecting (1) Add Money ​A customer can repeatedly deposit money into their account in any whole dollar amounts up to $1000 (e.g. $1, $3, $5, $15, $20, $100, $918, etc.)
+    - The Current Account Balance should not be able to exceed $1000 at any time
+    - Customers should be able to add money multiple times so they can replenish their balance at any time, provided they never go above $1000. 
     - The Current Account Balance indicates how much money the customer has available in their account.
   - Selecting ​(2) Select Product ​allows the customer to select a product and mark it as purchased.
       - If the product code does not exist, the customer is informed and returned to the Purchase menu.
     - If a product is sold out, the customer is informed and returned to the Purchase menu.
     - If not enough of the product is in stock for the amount the customer requested then they should be informed there is insufficient stock.  
     - If a valid product is selected it is marked as purchased.
-    - There is not a requirement to combine similar items (27 X E1 Pork Chops and 13 X  E1 Pork Chops)
+    - There is not a requirement to combine similar items (7 X E1 Pork Chops and 3 X  E1 Pork Chops)
     - After the product is purchased, the balance should be updated accordingly and the customer returned to the Order menu.
   - Selecting ​(3) Complete Transaction​ allows the customer to complete the transaction and receive a report of the products they ordered and lists any remaining change they should receive back in the mail.
       - The customer’s money is returned using nickels, dimes, quarters, ones, fives, tens, and twenties. (using the smallest amount of bills and coins possible).
@@ -95,9 +95,7 @@ Unit tests are required to demonstrate that the catering system works as expecte
 
 ## Catering System Data File
 
-The input file that stocks the catering system  products is a pipe (|) delimited file. Each line is a
-
-separate product in the file and follows the below format.  
+The input file that stocks the catering system  products is a pipe (|) delimited file. Each line is a separate product in the file and follows the below format.  
 
 **<span style="text-decoration:underline;">Columns:</span>**
 
@@ -115,7 +113,7 @@ An example input file has been provided in your repository.  This input file is 
 
 ## Total System Sales Report (Bonus Requirement)
 
-The total system sales report file is pipe-delimited for consistency and should be written to a file named TotalSales.rpt
+The total system sales report file is pipe-delimited for consistency and should be written to a file named TotalSales.txt
 
 Each line is a separate product with the total number and amount sold for the applicable product. 
 
