@@ -14,6 +14,16 @@ namespace Capstone.Classes
     /// </remarks>
     public abstract class CateringItem
     {
+        // may not need code due to dictionary key having it ?
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public int NumberOfItems { get; set; }
+
+        public CateringItem()
+        {
+            NumberOfItems = 10;
+        }
 
     }
 }

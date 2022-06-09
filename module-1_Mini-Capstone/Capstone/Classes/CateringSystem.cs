@@ -10,8 +10,10 @@ namespace Capstone.Classes
     public class CateringSystem
     {
         private readonly List<CateringItem> items = new List<CateringItem>();
-        
-
-   
+        bool done = false;
+        public void RunCateringSystem()
+        {
+           
+        }
     }
 }
