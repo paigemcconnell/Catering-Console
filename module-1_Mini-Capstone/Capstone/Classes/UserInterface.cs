@@ -16,13 +16,13 @@ namespace Capstone.Classes
 
         public void RunMainMenu()
         {
-            bool doneTransaction = false; //will get rid of eventually
+            bool doneTransaction = false; 
             bool doneOrdering = false;
             fileAccess.CateringInventoryRestockFromFile( fileAccess.filePlusPath, masterListOfItems);//fill the dictionary fromCSV
             decimal currentAccountBalance = 0m;
             
 
-            while (!doneOrdering)
+            while (!doneOrdering) // main menu loop
             {
                 Console.WriteLine("Yello! Welcome to Josh and Paige's Inventory System!");
                 Console.WriteLine("(1) Display Catering Items");
@@ -31,7 +31,7 @@ namespace Capstone.Classes
 
                 string userOptionInput = Console.ReadLine();
 
-                if (userOptionInput == "1")
+                if (userOptionInput == "1") //display catering item 
                 {
                     foreach(KeyValuePair<string, CateringItem> kvp in masterListOfItems)
                     {
@@ -39,9 +39,9 @@ namespace Capstone.Classes
                         //Make this look nicer if we have time 
                     }
                 }
-                else if (userOptionInput == "2") 
+                else if (userOptionInput == "2") //order - takes in sub menu 
                 {
-                    while (!doneTransaction)
+                    while (!doneTransaction) // purchase menu loop 
                     {
                         Console.WriteLine("(1) Add money");
                         Console.WriteLine("(2) Select products");
@@ -49,7 +49,7 @@ namespace Capstone.Classes
                         Console.WriteLine("Current account balance" + currentAccountBalance);
                         string orderUserInput = Console.ReadLine();
 
-                        if (orderUserInput == "1")
+                        if (orderUserInput == "1") // add money
                         {
                             Console.WriteLine("How much money would you like to add?");
                             string moneyDeposit = Console.ReadLine();
@@ -58,23 +58,26 @@ namespace Capstone.Classes
                             //need to protect against things they can't parse
                             //move else where, create a class 
                             //accountbalance.Deposit(addMoneyToBalance)
+                            //write to logfile add money/balance
                         }
-                        else if (orderUserInput == "2")
+                        else if (orderUserInput == "2") //select products 
                         {
                             Console.WriteLine("What code would you like to purchase?");
                             string codeToPurchaseInput = Console.ReadLine();
                             Console.WriteLine("What quantity do you need?");
                             string quantity = Console.ReadLine();
                             //CateringSystem.Order(quanity, code);
+                            //write to logfile quantity name and code ordered 
                             
 
                          }
-                        else if (orderUserInput == "3")
+                        else if (orderUserInput == "3") // complete transaction
                         {
                             //Print list 
                             //make change
                             //return to main menu 
                             doneTransaction = true;
+                            //write to logfile give change
 
                         }
                         else
@@ -83,7 +86,7 @@ namespace Capstone.Classes
                         }
                     }
                 }
-                else if (userOptionInput == "3")
+                else if (userOptionInput == "3") // quit
                 {
                     Console.WriteLine("Thank you for purchasing, have a great day!");
                     doneOrdering = false;
