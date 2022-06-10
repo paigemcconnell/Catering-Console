@@ -78,20 +78,21 @@ namespace Capstone.Classes
                             string quantity = Console.ReadLine();
                             int numberOfItem = int.Parse(quantity); // need to add protection vs bad parse error
                             //add protection for sold out item , either change order method or something in catering system 
-                            catering.Order(numberOfItem, codeToPurchaseInput, masterListOfItems); // trying to order a code , remove from dictionary
-                            //write to logfile quantity name and code ordered 
-                            
+                            Console.WriteLine(catering.Order(numberOfItem, codeToPurchaseInput, masterListOfItems)); // trying to order a code , remove from dictionary
+                                                                                                  //write to logfile quantity name and code ordered 
+                        }
 
-                         }
                         else if (orderUserInput == "3") // complete transaction
                         {
                             //Print list 
                             //make change
                             //return to main menu 
                             doneTransaction = true;
+                            Console.WriteLine(catering.MakeChange( .05m, catering.Balance)); // need to create bill to make it work
                             //write to logfile give change
 
                         }
+
                         else
                         {
                             Console.WriteLine("Sorry, please select option 1, 2, or 3.");
