@@ -10,9 +10,10 @@ namespace Capstone.Classes
     /// </summary>
     public class UserInterface
     {
-        private CateringSystem catering = new CateringSystem();//creating catering system...still needs to be done
+        public CateringSystem catering = new CateringSystem();//creating catering system...still needs to be done
         private FileAccess fileAccess = new FileAccess();//creating fileAccess system
         public Dictionary<string, CateringItem> masterListOfItems = new Dictionary<string, CateringItem>();//creating blank dictionary 
+        public LogSystem logSystem = new LogSystem();
 
         public void RunMainMenu()
         {
@@ -24,6 +25,8 @@ namespace Capstone.Classes
 
             while (!doneOrdering) // main menu loop
             {
+                doneTransaction = false; // allows to re-enter ordering menu after exiting
+
                 Console.WriteLine("Yello! Welcome to Josh and Paige's Inventory System!");
                 Console.WriteLine("(1) Display Catering Items");
                 Console.WriteLine("(2) Order");
@@ -36,7 +39,7 @@ namespace Capstone.Classes
                     foreach(KeyValuePair<string, CateringItem> kvp in masterListOfItems)
                     {
                         Console.WriteLine($"Code : {kvp.Key} Name : {kvp.Value.Name} Price : {kvp.Value.Price} Quanity : {kvp.Value.NumberOfItems}");
-                        //Make this look nicer if we have time 
+                        //Make this look nicer if we have time also move to another class as a method
                     }
                 }
                 else if (userOptionInput == "2") //order - takes in sub menu 
@@ -46,19 +49,26 @@ namespace Capstone.Classes
                         Console.WriteLine("(1) Add money");
                         Console.WriteLine("(2) Select products");
                         Console.WriteLine("(3) Complete transaction");
-                        Console.WriteLine("Current account balance" + currentAccountBalance);
+                        Console.WriteLine("Current account balance: " + catering.Balance);
                         string orderUserInput = Console.ReadLine();
 
                         if (orderUserInput == "1") // add money
                         {
                             Console.WriteLine("How much money would you like to add?");
                             string moneyDeposit = Console.ReadLine();
+                            try
+                            {
                             decimal addMoneyToBalance = Decimal.Parse(moneyDeposit);
-                            currentAccountBalance += addMoneyToBalance;
-                            //need to protect against things they can't parse
-                            //move else where, create a class 
-                            //accountbalance.Deposit(addMoneyToBalance)
-                            //write to logfile add money/balance
+                                catering.DepositMoney(addMoneyToBalance); //tries to add money
+                                logSystem.WriteDepositToFile(catering.Balance, addMoneyToBalance);//writes to log 
+                            }
+                            catch (FormatException)
+                            {
+
+                                Console.WriteLine("Invalid amount of money entered."); //display if they don't type a number that can go into a decimal
+                            }
+                            
+                           
                         }
                         else if (orderUserInput == "2") //select products 
                         {
@@ -66,7 +76,9 @@ namespace Capstone.Classes
                             string codeToPurchaseInput = Console.ReadLine();
                             Console.WriteLine("What quantity do you need?");
                             string quantity = Console.ReadLine();
-                            //CateringSystem.Order(quanity, code);
+                            int numberOfItem = int.Parse(quantity); // need to add protection vs bad parse error
+                            //add protection for sold out item , either change order method or something in catering system 
+                            catering.Order(numberOfItem, codeToPurchaseInput, masterListOfItems); // trying to order a code , remove from dictionary
                             //write to logfile quantity name and code ordered 
                             
 

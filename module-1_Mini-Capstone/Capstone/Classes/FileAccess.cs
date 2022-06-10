@@ -19,7 +19,7 @@ namespace Capstone.Classes
         private const string ReportFileName = @"totalsales.txt"; 
         public string filePlusPath = Path.Combine(DataDirectory, CateringFileName);//this combines the Data directory with file name 
 
-        public void CateringInventoryRestockFromFile(string DataDirectory, Dictionary<string, CateringItem> MasterListOfItems)
+        public void CateringInventoryRestockFromFile(string DataDirectory, Dictionary<string, CateringItem> MasterListOfItems) // need to rename lower case
         {
             using (StreamReader reader = new StreamReader(filePlusPath))
             {
