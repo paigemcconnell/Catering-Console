@@ -16,5 +16,7 @@ namespace Capstone.Classes
         // These files should be read from / written to in the DataDirectory
         private const string CateringFileName = @"cateringsystem.csv";
         private const string ReportFileName = @"totalsales.txt";
+
+        // only one closs should use stream reader/writer
     }
 }

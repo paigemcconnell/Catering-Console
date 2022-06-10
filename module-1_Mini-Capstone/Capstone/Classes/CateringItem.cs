@@ -14,6 +14,6 @@ namespace Capstone.Classes
     /// </remarks>
     public abstract class CateringItem
     {
-
+        // two things at least should inherit from this, only possible use of inheritance
     }
 }

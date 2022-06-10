@@ -9,6 +9,8 @@ namespace Capstone.Classes
     /// All the "work" of the application should be done elsewhere
     /// </summary>
     public class UserInterface
+
+        // only console read/write lines here!!!
     {
         private CateringSystem catering = new CateringSystem();
 

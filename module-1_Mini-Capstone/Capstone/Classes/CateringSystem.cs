@@ -10,7 +10,8 @@ namespace Capstone.Classes
     public class CateringSystem
     {
         private readonly List<CateringItem> items = new List<CateringItem>();
-        
+        // lots of little methods
+        // manual test first, no test units for UI
 
    
     }
