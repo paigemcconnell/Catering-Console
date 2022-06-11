@@ -9,18 +9,13 @@ namespace Capstone.Classes
     /// </summary>
     public class CateringSystem
     {
-
+       
         public decimal Balance { get; private set; } = 0M;
+        public decimal TotalBill { get; private set; } = 0M;
 
-        private readonly List<CateringItem> items = new List<CateringItem>();
-
-        bool done = false;
+      
 
 
-        public void RunCateringSystem()
-        {
-
-        }
 
         public void DepositMoney(decimal addMoneyToBalance)
         {
@@ -31,60 +26,60 @@ namespace Capstone.Classes
             }
         }
 
-
-        public bool WithdrawMoney(decimal withdrawAmount)
+        public void ResetBalanceToZero()
         {
-            if (Balance - withdrawAmount > 0M)
-            {
-                Balance -= withdrawAmount;
-                return true;
-
-            }
-            return false;
+            Balance = 0m;
 
         }
-        public string Order(int quanity, string code, Dictionary<string, CateringItem> masterListOfItems)
+        
+        public string Order(int quantity, string code, Dictionary<string, CateringItem> masterListOfItems, List<string> shoppingCartList)
         {
-            // need to remove X quanity from dictionary Key code
 
+            //ListOfSelectedCodes = new List<string>();
+            //ListOfSelectedQuantities = new List<int>();
 
             if (!masterListOfItems.ContainsKey(code)) //if the key doesn't exist
             {
                 return "Key not found, please try again.";
             }
 
-            else if (masterListOfItems[code].NumberOfItems == 0)
+            else if (masterListOfItems[code].NumberOfItems == 0) // if the item is sold out 
             {
                 return "Item SOLD OUT.";
             }
 
-            else if (masterListOfItems[code].NumberOfItems <= quanity) // if the quantity requested is to great
+            else if (masterListOfItems[code].NumberOfItems < quantity) // if the quantity requested is to great
             {
                 return "Not enough left to vend.";
             }
 
-            else if ((quanity * (masterListOfItems[code].Price)) > Balance)  // if not enough money
+            else if ((quantity * (masterListOfItems[code].Price)) > Balance)  // if not enough money
             {
                 return "Sorry insuffcient funds.";
             }
 
             else
             {
-                masterListOfItems[code].NumberOfItems -= quanity;  // remove from inventory
-                // make a log
-                // make log of what is moved 
-                Balance -= (quanity * (masterListOfItems[code].Price));
-                return "Added to cart.";
-            }
-            // possibly it depends make a separate method to do the actual vend, use above as a logic check
-            // charge customer
-            // log charge
+                masterListOfItems[code].NumberOfItems -= quantity;  // remove from inventory
+                TotalBill += (quantity * (masterListOfItems[code].Price)); // this tracks total bill 
+                Balance -= (quantity * (masterListOfItems[code].Price)); // charges to balance total cost of items 
+                //delete below if shoping card list works:
+                //shoppingCartList[code].NumberOfItems += quantity; // create new quanity , key on code in shopping cart dictionary
+                shoppingCartList.Add($" {quantity} {masterListOfItems[code].Type} {masterListOfItems[code].Name} {masterListOfItems[code].Price} {quantity * masterListOfItems[code].Price}"); // creating a shopping cart list of codes 
+                                                                                                                                                                                               //ListOfSelectedQuantities.Add(quantity); // creating a shopping cart list of quantities 
 
-            // write to log final order
+
+
+                return "COMPLETED";  //this allows us to log the purchased items in the UI 
+
+            }
+
         }
 
-        public string MakeChange(decimal bill, decimal balance)
+
+        public string MakeChange(decimal balance)
         {
+            // need to protect from null decimals still 
             Dictionary<string, int> changeCounter = new Dictionary<string, int>();
             decimal twentyDollarBills = 0; // set change counters to zero
             decimal tenDollarBills = 0;
@@ -94,7 +89,7 @@ namespace Capstone.Classes
             decimal dimes = 0;
             decimal nickels = 0;
 
-            decimal changeDue = balance - bill; // change due is intitially set and substracted as we add bills/coins
+            decimal changeDue = balance; // change due is intitially set and substracted as we add bills/coins
 
             while (changeDue > 0m) // while more change needs created
             {
@@ -137,5 +132,8 @@ namespace Capstone.Classes
             return $"Your change is {twentyDollarBills}-20$ bills, {tenDollarBills}-10$ bills, {fiveDollarBills}-5$ bills, {singleDollarBills}-1$ bills, {quarters}-quarters, {dimes}-dimes, {nickels}-nickels";
 
         }
+
+
+
     }
 }

@@ -19,6 +19,8 @@ namespace Capstone.Classes
         public string Name { get; set; }
         public decimal Price { get; set; }
         public int NumberOfItems { get; set; }
+        public abstract string Type { get; }
+
 
         public CateringItem()
         {
