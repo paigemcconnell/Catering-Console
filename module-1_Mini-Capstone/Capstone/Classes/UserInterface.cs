@@ -12,18 +12,24 @@ namespace Capstone.Classes
 
         // only console read/write lines here!!!
     {
-        public CateringSystem catering = new CateringSystem();//creating catering system...still needs to be done
+        private CateringSystem catering = new CateringSystem();//creating catering system...still needs to be done
         private FileAccess fileAccess = new FileAccess();//creating fileAccess system
-        public Dictionary<string, CateringItem> masterListOfItems = new Dictionary<string, CateringItem>();//creating blank dictionary 
-        public LogSystem logSystem = new LogSystem();
+        private Dictionary<string, CateringItem> masterListOfItems = new Dictionary<string, CateringItem>();//creating blank dictionary 
+        private LogSystem logSystem = new LogSystem();
+        private List<string> shoppingCart = new List<string>();
+
+        // public Dictionary<string, CateringItem> shoppingCartList = new Dictionary<string, CateringItem>();
+        // public List<string> shoppingCartCodeList = new List<string>();
+        // public List<string> shoppingCartQuantityList = new List<string>();
 
         public void RunMainMenu()
         {
-            bool doneTransaction = false; 
+
+            bool doneTransaction = false;
             bool doneOrdering = false;
-            fileAccess.CateringInventoryRestockFromFile( fileAccess.filePlusPath, masterListOfItems);//fill the dictionary fromCSV
+            fileAccess.CateringInventoryRestockFromFile(fileAccess.filePlusPath, masterListOfItems);//fill the dictionary fromCSV
             decimal currentAccountBalance = 0m;
-            
+
 
             while (!doneOrdering) // main menu loop
             {
@@ -38,7 +44,7 @@ namespace Capstone.Classes
 
                 if (userOptionInput == "1") //display catering item 
                 {
-                    foreach(KeyValuePair<string, CateringItem> kvp in masterListOfItems)
+                    foreach (KeyValuePair<string, CateringItem> kvp in masterListOfItems)
                     {
                         Console.WriteLine($"Code : {kvp.Key} Name : {kvp.Value.Name} Price : {kvp.Value.Price} Quanity : {kvp.Value.NumberOfItems}");
                         //Make this look nicer if we have time also move to another class as a method
@@ -60,7 +66,7 @@ namespace Capstone.Classes
                             string moneyDeposit = Console.ReadLine();
                             try
                             {
-                            decimal addMoneyToBalance = Decimal.Parse(moneyDeposit);
+                                decimal addMoneyToBalance = Decimal.Parse(moneyDeposit);
                                 catering.DepositMoney(addMoneyToBalance); //tries to add money
                                 logSystem.WriteDepositToFile(catering.Balance, addMoneyToBalance);//writes to log 
                             }
@@ -69,8 +75,8 @@ namespace Capstone.Classes
 
                                 Console.WriteLine("Invalid amount of money entered."); //display if they don't type a number that can go into a decimal
                             }
-                            
-                           
+
+
                         }
                         else if (orderUserInput == "2") //select products 
                         {
@@ -80,19 +86,38 @@ namespace Capstone.Classes
                             string quantity = Console.ReadLine();
                             int numberOfItem = int.Parse(quantity); // need to add protection vs bad parse error
                             //add protection for sold out item , either change order method or something in catering system 
-                            Console.WriteLine(catering.Order(numberOfItem, codeToPurchaseInput, masterListOfItems)); // trying to order a code , remove from dictionary
-                                                                                                  //write to logfile quantity name and code ordered 
+                            string orderResult = (catering.Order(numberOfItem, codeToPurchaseInput, masterListOfItems, shoppingCart)); // trying to order a code , remove from dictionary
+                            if (orderResult.Contains("COMPLETED"))
+                            {
+                                logSystem.WritePurchaseToFile(numberOfItem, codeToPurchaseInput, masterListOfItems);
+                            }
+                            else Console.WriteLine(orderResult);
+
+                            // will print even if order fails, need to fix 
+                            // adding the code to cart string list part of order now
+                            // adding the quantity to the cart int list part of order now see above
+
+
+                            //**write to logfile quantity name and code ordered 
                         }
 
                         else if (orderUserInput == "3") // complete transaction
                         {
                             //Print list 
-                            //make change
-                            //return to main menu 
-                            doneTransaction = true;
-                            Console.WriteLine(catering.MakeChange( .05m, catering.Balance)); // need to create bill to make it work
-                            //write to logfile give change
 
+
+                            doneTransaction = true; // this will end the while loop returning to main menu
+                            Console.WriteLine(catering.MakeChange(catering.Balance)); // makes change and returns a string of the change
+
+
+                            logSystem.WriteChangeToFile(catering.Balance); // takes remaining balance and records it before we give change below
+                            catering.ResetBalanceToZero();   // adjust balance to zero after change
+
+                            foreach (string line in shoppingCart)
+                            {
+                                Console.WriteLine($"{line}");
+                            }
+                            Console.WriteLine($"Total Bill : {catering.TotalBill.ToString("C")}");
                         }
 
                         else
