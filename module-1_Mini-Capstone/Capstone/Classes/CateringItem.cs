@@ -14,6 +14,20 @@ namespace Capstone.Classes
     /// </remarks>
     public abstract class CateringItem
     {
+<<<<<<< HEAD
         // two things at least should inherit from this, only possible use of inheritance
+=======
+        // may not need code due to dictionary key having it ?
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public int NumberOfItems { get; set; }
+
+        public CateringItem()
+        {
+            NumberOfItems = 10;
+        }
+
+>>>>>>> edeeda0a403a788b3c8e0cf004bc270bb859b2e5
     }
 }
