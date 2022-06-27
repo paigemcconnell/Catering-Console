@@ -9,30 +9,27 @@ namespace Capstone.Classes
     /// </summary>
     public class CateringSystem
     {
-       
+
         public decimal Balance { get; private set; } = 0M;
         public decimal TotalBill { get; private set; } = 0M;
 
-        public void DepositMoney(decimal addMoneyToBalance)
+        public void DepositMoney(decimal addMoneyToBalance) // deposits money to account, needs negative protection
         {
             if (Balance + addMoneyToBalance <= 1000M)
             {
                 Balance += addMoneyToBalance;
-
             }
         }
 
-        public void ResetBalanceToZero()
+        public void ResetBalanceToZero() // resets balance to zero, gets called when returning to main menu
         {
             Balance = 0m;
 
         }
-        
+
+        //below protects the order from incorrect items / values / funds returns correct error message or "COMPLETED" if sucessful
         public string Order(int quantity, string code, Dictionary<string, CateringItem> masterListOfItems, List<string> shoppingCartList)
         {
-
-            //ListOfSelectedCodes = new List<string>();
-            //ListOfSelectedQuantities = new List<int>();
 
             if (!masterListOfItems.ContainsKey(code)) //if the key doesn't exist
             {
@@ -59,24 +56,15 @@ namespace Capstone.Classes
                 masterListOfItems[code].NumberOfItems -= quantity;  // remove from inventory
                 TotalBill += (quantity * (masterListOfItems[code].Price)); // this tracks total bill 
                 Balance -= (quantity * (masterListOfItems[code].Price)); // charges to balance total cost of items 
-                
                 shoppingCartList.Add($" {quantity} {masterListOfItems[code].Type} {masterListOfItems[code].Name} {masterListOfItems[code].Price} {quantity * masterListOfItems[code].Price}"); // creating a shopping cart list of codes 
-                                                                                                                                                                                               //ListOfSelectedQuantities.Add(quantity); // creating a shopping cart list of quantities 
-
-
-
                 return "COMPLETED";  //this allows us to log the purchased items in the UI 
-
             }
 
         }
 
-
         public string MakeChange(decimal balance)
         {
-            // need to protect from null decimals still 
-            Dictionary<string, int> changeCounter = new Dictionary<string, int>();
-            decimal twentyDollarBills = 0; // set change counters to zero
+            decimal twentyDollarBills = 0; // here and below set change counters to zero
             decimal tenDollarBills = 0;
             decimal fiveDollarBills = 0;
             decimal singleDollarBills = 0;
@@ -84,16 +72,16 @@ namespace Capstone.Classes
             decimal dimes = 0;
             decimal nickels = 0;
 
-            decimal changeDue = balance; // change due is intitially set and substracted as we add bills/coins
+            decimal changeDue = balance; // change due is intitially set and substracted as we add bills/coins to change counters
 
-            while (changeDue > 0m) // while more change needs created
+            while (changeDue >= 0.05m) // while more change is still needed, values under a nickel are ignored 
             {
-                if (changeDue >= 20m)
+                if (changeDue >= 20m)  // counts and removes 20 dollars per loop from total change due
                 {
                     changeDue -= 20m;
                     twentyDollarBills++;
                 }
-                else if (changeDue >= 10m)
+                else if (changeDue >= 10m) // counts and removes 10 dollars per loop
                 {
                     changeDue -= 10m;
                     tenDollarBills++;
